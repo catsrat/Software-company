@@ -152,15 +152,23 @@ const magneticBtns = document.querySelectorAll('.magnetic-btn');
 
 magneticBtns.forEach((btn) => {
     btn.addEventListener('mousemove', (e) => {
+        // Get bounding rect, but subtract current GSAP transforms to find the "true" static center
         const position = btn.getBoundingClientRect();
-        const x = e.pageX - position.left - position.width / 2;
-        const y = e.pageY - position.top - position.height / 2;
+        const currentX = gsap.getProperty(btn, "x") || 0;
+        const currentY = gsap.getProperty(btn, "y") || 0;
+        
+        const trueLeft = position.left - currentX;
+        const trueTop = position.top - currentY;
+        
+        // Calculate distance from the true static center
+        const x = (e.clientX - (trueLeft + position.width / 2)) * 0.2;
+        const y = (e.clientY - (trueTop + position.height / 2)) * 0.2;
 
         gsap.to(btn, {
-            x: x * 0.3,
-            y: y * 0.3,
-            duration: 0.5,
-            ease: "power3.out"
+            x: x,
+            y: y,
+            duration: 0.4,
+            ease: "power2.out"
         });
     });
 
@@ -168,8 +176,8 @@ magneticBtns.forEach((btn) => {
         gsap.to(btn, {
             x: 0,
             y: 0,
-            duration: 0.5,
-            ease: "elastic.out(1, 0.3)"
+            duration: 0.6,
+            ease: "elastic.out(1, 0.4)"
         });
     });
 });
