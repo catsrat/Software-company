@@ -1,0 +1,254 @@
+/* Lenis Recommended CSS for Smooth Scroll */
+html.lenis, html.lenis body {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+/* Base Variables & Setup */
+:root {
+    --bg-dark: #070913;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #8b5cf6;
+    --accent: #0ea5e9;
+    
+    --gradient-1: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    --gradient-text: linear-gradient(to right, #818cf8, #c084fc, #38bdf8);
+    
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Marquee */
+.bg-marquee-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    z-index: -2;
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 8vh;
+    opacity: 0.03; /* Extremely subtle */
+    pointer-events: none;
+    overflow: hidden;
+}
+.bg-marquee {
+    display: flex; white-space: nowrap; font-family: var(--font-heading);
+    font-size: 8rem; font-weight: 800; color: white;
+}
+.bg-marquee span { padding-right: 50px; }
+
+/* Typography & Utilities */
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: -1px; }
+h2 { font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -0.5px; }
+p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+.text-gradient {
+    background: var(--gradient-text); -webkit-background-clip: text;
+    background-clip: text; color: transparent; display: inline-block;
+}
+
+/* Custom Scribble Underline (Kontenta.ai style) */
+.scribble-text {
+    position: relative; display: inline-block; color: var(--accent);
+}
+.scribble-text::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 6px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q25,0 50,5 T100,5" stroke="%230ea5e9" stroke-width="4" fill="none"/></svg>') no-repeat center;
+    background-size: 100% 100%;
+}
+
+.text-center { text-align: center; }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+.section-padding { padding: 6rem 0; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* Glassmorphism */
+.glass-card {
+    background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color); border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons (Magnetic Target) */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.75rem 1.7rem; border-radius: 50px; font-weight: 600; font-family: var(--font-heading);
+    cursor: pointer; border: none; outline: none; position: relative; z-index: 10;
+}
+.btn-lg { padding: 1rem 2.5rem; font-size: 1.1rem; }
+.btn-block { width: 100%; }
+.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 10px 20px -10px var(--primary); }
+.btn-secondary { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--border-color); backdrop-filter: blur(5px); }
+
+/* GSAP Split Text utility classes */
+.word {
+    display: inline-block;
+}
+
+/* Navbar */
+.navbar { position: fixed; top: 0; width: 100%; padding: 1.5rem 0; z-index: 1000; transition: all 0.3s ease; }
+.navbar.scrolled { padding: 1rem 0; background: rgba(7, 9, 19, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-family: var(--font-heading); font-weight: 800; }
+.logo-icon { color: var(--primary); font-size: 1.8rem; }
+.logo span { font-weight: 300; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { color: var(--text-main); font-weight: 500; padding: 0.5rem; }
+
+/* Hero Section */
+.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; position: relative; }
+.hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.badge { display: inline-block; padding: 0.4rem 1rem; background: rgba(99, 102, 241, 0.1); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.5rem; }
+.hero-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+
+/* Dashboard Mockup - We'll use GSAP for entry */
+.main-dashboard { padding: 1.5rem; position: relative; }
+.dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
+.dots { display: flex; gap: 0.4rem; }
+.dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--border-color); }
+.dots span:nth-child(1) { background: #ef4444; }
+.dots span:nth-child(2) { background: #eab308; }
+.dots span:nth-child(3) { background: #22c55e; }
+.dashboard-header .title { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.stat-box { background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; }
+.stat-box i { font-size: 1.5rem; color: var(--primary); background: rgba(99, 102, 241, 0.1); padding: 0.8rem; border-radius: 10px; }
+.stat-box h4 { margin-bottom: 0.2rem; font-size: 0.8rem; }
+.stat-box p { margin-bottom: 0; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+
+.chart-mockup { display: flex; align-items: flex-end; gap: 1rem; height: 120px; }
+.chart-mockup .bar { flex: 1; background: var(--gradient-1); border-radius: 4px 4px 0 0; opacity: 0.8; }
+
+/* Word Reveal Logic (Kontenta.ai style 'Our DNA' paragraph) */
+.word-reveal .word {
+    color: rgba(255,255,255,0.15); /* Start dim */
+    transition: color 0.1s ease;
+}
+.word-reveal .word.active {
+    color: rgba(255,255,255, 1); /* Become bright white on scroll */
+}
+
+/* Clients/Logos Ticker */
+.clients { padding: 3rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); overflow: hidden; }
+.section-subtitle { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
+.client-logos { position: relative; width: 100%; }
+.client-logos::before, .client-logos::after { content: ''; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2; }
+.client-logos::before { left: 0; background: linear-gradient(to right, var(--bg-dark), transparent); }
+.client-logos::after { right: 0; background: linear-gradient(to left, var(--bg-dark), transparent); }
+.logo-track { display: flex; width: calc(200px * 10); animation: scroll 20s linear infinite; }
+.client-logo { width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1.25rem; font-weight: 600; color: var(--text-muted); font-family: var(--font-heading); opacity: 0.6; }
+@keyframes scroll { 100% { transform: translateX(calc(-200px * 5)); } }
+
+/* STACKING CARDS (Services) */
+.stacking-section {
+    padding: 8rem 0;
+    position: relative;
+    /* We will pin .cards-container via GSAP */
+}
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 90%; max-width: 1000px; margin: 0 auto;
+}
+.stack-card {
+    position: sticky; /* Sticky backup for GSAP Pin setup */
+    top: 15vh;
+    padding-top: 2rem; /* Creates visual stack offset */
+    width: 100%;
+    margin-bottom: 40vh; /* space for scrolling */
+}
+/* Adjust sticky top uniquely based on nth-order to show them stacking exactly like Kontenta */
+.card-1 { top: 10vh; }
+.card-2 { top: 12vh; }
+.card-3 { top: 14vh; margin-bottom: 10vh;}
+
+.card-inner {
+    background: var(--bg-dark); /* Solid background so it covers cards below */
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.5); /* Shadow falling on card behind it */
+    transform-origin: top center;
+}
+.card-content { display: flex; flex-direction: column; justify-content: center; }
+.card-content h3 { font-size: 2rem; margin-bottom: 1rem;}
+.icon-wrap { width: 60px; height: 60px; background: rgba(99, 102, 241, 0.1); color: #818cf8; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; }
+.feature-list { list-style: none; margin-top: 1.5rem; }
+.feature-list li { margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main); }
+.feature-list i { color: var(--accent); font-size: 0.8rem; }
+.card-visual { background: rgba(255,255,255,0.02); border-radius: 15px; display: flex; align-items: center; justify-content: center; min-height: 300px; border: 1px solid var(--border-color); }
+
+/* Process */
+.process-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.process-steps { margin-top: 3rem; display: flex; flex-direction: column; gap: 2rem; position: relative; }
+.process-steps::before { content: ''; position: absolute; left: 19px; top: 0; bottom: 0; width: 2px; background: var(--border-color); z-index: 1; }
+.step { display: flex; gap: 2rem; position: relative; z-index: 2; opacity: 0.5; transition: 0.3s; }
+.step.gs-active { opacity: 1; }
+.step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-heading); color: var(--text-muted); transition: 0.3s; }
+.step.gs-active .step-num { border-color: var(--primary); color: white; background: var(--gradient-1); box-shadow: 0 0 15px rgba(99, 102, 241, 0.5); }
+.step-content h4 { margin-bottom: 0.5rem; }
+
+/* Abstract Process Visual GSAP Ready */
+.glass-circle-wrap { position: relative; width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+.orbit { position: absolute; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.1); }
+.orbit-1 { width: 60%; height: 60%; }
+.orbit-2 { width: 90%; height: 90%; }
+.center-core { width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); z-index: 2; }
+.floating-element { position: absolute; width: 50px; height: 50px; background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-size: 1.2rem; }
+.float-1 { top: 15%; right: 15%; }
+.float-2 { bottom: 20%; left: 10%; }
+.float-3 { bottom: 10%; right: 30%; }
+
+/* CTA & Contact */
+.cta-box { padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; background: linear-gradient(to right, rgba(255,255,255,0.02), rgba(99, 102, 241, 0.05)); }
+.cta-form { display: flex; flex-direction: column; gap: 1rem; }
+.input-group input { width: 100%; padding: 1rem 1.5rem; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-family: var(--font-body); outline: none; transition: 0.3s; }
+.input-group input:focus { border-color: var(--primary); background: rgba(0,0,0,0.4); }
+
+/* Footer */
+footer { padding: 4rem 0 2rem; border-top: 1px solid var(--border-color); }
+.footer-container { display: flex; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 2rem; }
+.footer-brand .logo { margin-bottom: 1rem; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; color: var(--text-muted); font-size: 0.9rem; }
+
+/* Responsive */
+@media (max-width: 991px) {
+    .bg-marquee { font-size: 4rem; }
+    .hero-container, .card-inner, .process-wrapper, .cta-box { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+    .hero-actions { justify-content: center; }
+    .process-steps::before { left: 50%; transform: translateX(-50%); }
+    .step { flex-direction: column; align-items: center; text-align: center; }
+    .hero { padding-top: 8rem; text-align: center;}
+    .nav-links, .nav-btn { display: none; }
+}
