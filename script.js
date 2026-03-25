@@ -96,8 +96,8 @@ revealTexts.forEach(text => {
 // Hero Timeline
 const tlHero = gsap.timeline();
 tlHero.from(".badge", { y: 20, opacity: 0, duration: 0.6, ease: "power3.out", delay: 0.2 })
-      .from(".split-text .word", { y: 40, opacity: 0, duration: 0.8, stagger: 0.05, ease: "back.out(1.7)" }, "-=0.4")
-      .from(".split-text-fade", { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
+      .from(".hero .split-text .word", { y: 40, opacity: 0, duration: 0.8, stagger: 0.05, ease: "back.out(1.7)" }, "-=0.4")
+      .from(".hero .split-text-fade", { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
       .from(".hero-actions", { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
       .from(".main-dashboard", { opacity: 0, rotationY: 20, rotationX: -10, y: 50, duration: 1.2, ease: "power3.out" }, "-=0.8");
 
@@ -152,12 +152,36 @@ revealParagraphs.forEach((paragraph) => {
     });
 });
 
-// Standard general fades
-gsap.utils.toArray('.split-text-wrapper .split-text .word').forEach((word, i) => {
-    gsap.from(word, {
-        scrollTrigger: { trigger: word.closest('.split-text-wrapper'), start: "top 85%" },
-        y: 30, opacity: 0, duration: 0.6, delay: i * 0.03, ease: "power2.out"
+// Generalized Scroll Animations for Headers outside Hero
+const sectionHeaders = document.querySelectorAll('.split-text:not(.hero .split-text)');
+
+sectionHeaders.forEach((header) => {
+    // See if there's an accompanying paragraph to fade in alongside the header
+    const fadeGroup = header.parentElement.querySelector('.split-text-fade');
+    const words = header.querySelectorAll('.word');
+    
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: header,
+            start: "top 85%",
+            toggleActions: "play none none none"
+        }
     });
+
+    if (words.length > 0) {
+        tl.fromTo(words, 
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, stagger: 0.03, ease: "power2.out" }
+        );
+    }
+    
+    if (fadeGroup) {
+        tl.fromTo(fadeGroup,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
+            "-=0.4"
+        );
+    }
 });
 
 // Process Steps Staggered Activation
