@@ -190,7 +190,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 /* Adjust sticky top uniquely based on nth-order to show them stacking exactly like Kontenta */
 .card-1 { top: 10vh; }
 .card-2 { top: 12vh; }
-.card-3 { top: 14vh; margin-bottom: 10vh;}
+.card-3 { top: 14vh; margin-bottom: 40vh; }
 
 .card-inner {
     background: var(--bg-dark); /* Solid background so it covers cards below */
