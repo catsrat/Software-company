@@ -39,7 +39,7 @@ gsap.ticker.lagSmoothing(0);
 function splitTextIntoWords(elementSelector) {
     const elements = document.querySelectorAll(elementSelector);
     elements.forEach(el => {
-        const words = el.innerText.split(' ');
+        const words = (el.textContent || '').trim().split(/\s+/);
         el.innerHTML = '';
         words.forEach(word => {
             const span = document.createElement('span');
@@ -54,6 +54,35 @@ function splitTextIntoWords(elementSelector) {
 // Prepare specific texts
 splitTextIntoWords('.split-text');
 splitTextIntoWords('.word-reveal');
+
+// 2.5 Word-by-Word Scroll Reveal
+const revealTexts = document.querySelectorAll('.reveal-text');
+
+revealTexts.forEach(text => {
+    // Split text into words using textContent which is safer than innerText
+    const rawText = text.textContent || '';
+    const words = rawText.trim().split(/\s+/);
+    text.innerHTML = '';
+    
+    words.forEach(word => {
+        const span = document.createElement('span');
+        span.textContent = word + ' ';
+        span.className = 'reveal-word';
+        text.appendChild(span);
+    });
+
+    gsap.to(text.querySelectorAll('.reveal-word'), {
+        scrollTrigger: {
+            trigger: text,
+            start: "top 85%",
+            end: "bottom 50%",
+            scrub: 1,
+        },
+        color: "#ffffff",
+        opacity: 1,
+        stagger: 0.1
+    });
+});
 
 // 3. GSAP Animations
 
