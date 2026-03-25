@@ -71,17 +71,24 @@ revealTexts.forEach(text => {
         text.appendChild(span);
     });
 
-    gsap.to(text.querySelectorAll('.reveal-word'), {
-        scrollTrigger: {
-            trigger: text,
-            start: "top 85%",
-            end: "bottom 50%",
-            scrub: 1,
+    // Use fromTo so GSAP explicitly sets the start and end states regardless of refresh position
+    gsap.fromTo(text.querySelectorAll('.reveal-word'), 
+        {
+            color: "rgba(255, 255, 255, 0.2)",
+            opacity: 0.2
         },
-        color: "#ffffff",
-        opacity: 1,
-        stagger: 0.1
-    });
+        {
+            scrollTrigger: {
+                trigger: text,
+                start: "top 85%",
+                end: "bottom 50%",
+                scrub: 1,
+            },
+            color: "#ffffff",
+            opacity: 1,
+            stagger: 0.1
+        }
+    );
 });
 
 // 3. GSAP Animations
